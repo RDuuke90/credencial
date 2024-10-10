@@ -1,5 +1,5 @@
 from gestor import Gestor
-
+from credencial import Credencial
 class Main:
 
     @staticmethod
@@ -7,6 +7,7 @@ class Main:
         _PASSWORD_SYSTEM:str = "contrasena!"
         intentos:int = 3
         gestor:Gestor = Gestor()
+        credencial: Credencial = None
         print("Sistema GC")
         while(intentos > 0):
             password:str = input("Ingrese contraseña del sistema: ")
@@ -15,6 +16,7 @@ class Main:
                 salida:bool = True
                 while salida:
                     print("=======Modulos=======")
+                    print("0 -> Listar Credenciales")
                     print("1 -> Crear Credencial")
                     print("2 -> Agregar Credencial")
                     print("3 -> Buscar Credencial")
@@ -22,11 +24,17 @@ class Main:
                     print("=====================")
                     opcion:str = input("Seleccione modulo: ")
 
-                    match opcion:
+                    match opcion:   
+                        case "0":
+                            gestor.listar_credenciales()
                         case "1":
-                            print("Saliendo del sistema!")
+                            credencial = gestor.crear_credencial()
                         case "2":
-                            gestor.agregar_credencial()
+                            if credencial is None:
+                                print("No hay credencial")
+                            else:
+                                gestor.agregar_credencial(credencial)
+
                         case "3": 
                             print("Saliendo del sistema!")
                         case "4": 
@@ -35,9 +43,6 @@ class Main:
                             
                         case _: 
                             print("Opcion no valida!")
-                            
-                        
-
             else:
                 intentos -= 1
                 print(f"Intentos {intentos}")
